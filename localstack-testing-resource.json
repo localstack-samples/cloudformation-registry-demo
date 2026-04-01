@@ -16,14 +16,12 @@
     }
   },
   "additionalProperties": false,
-  "required": [
+  "createOnlyProperties": [
     "/properties/TopicArn"
   ],
-  "nonPublicProperties": [
-    "/properties/SubscriptionArn"
-  ],
   "readOnlyProperties": [
-    "/properties/QueueUrl"
+    "/properties/QueueUrl",
+    "/properties/SubscriptionArn"
   ],
   "primaryIdentifier": [
     "/properties/QueueUrl"

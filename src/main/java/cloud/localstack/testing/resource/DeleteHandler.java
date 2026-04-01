@@ -25,17 +25,21 @@ public class DeleteHandler extends BaseHandler<CallbackContext> {
         AmazonSNS snsClient = AwsClientFactory.configure(AmazonSNSClientBuilder.standard()).build();
 
         try {
-
+            var subscriptionArn = model.getSubscriptionArn();
+            logger.log("unsubscribing from subscription arn: '%s'".formatted(subscriptionArn));
             proxy.<UnsubscribeRequest, UnsubscribeResult>injectCredentialsAndInvoke(
                     new UnsubscribeRequest()
-                            .withSubscriptionArn(model.getSubscriptionArn()),
+                            .withSubscriptionArn(subscriptionArn),
                     snsClient::unsubscribe);
 
+            var queueUrl = model.getQueueUrl();
+            logger.log("deleting queue: '%s'".formatted(queueUrl));
             proxy.<DeleteQueueRequest, DeleteQueueResult>injectCredentialsAndInvoke(
                     new DeleteQueueRequest()
-                            .withQueueUrl(model.getQueueUrl()),
+                            .withQueueUrl(queueUrl),
                     sqsClient::deleteQueue);
 
+            logger.log("success");
             return ProgressEvent.<ResourceModel, CallbackContext>builder()
                     .resourceModel(model)
                     .status(OperationStatus.SUCCESS)
