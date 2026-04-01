@@ -19,7 +19,11 @@ public class DeleteHandler extends BaseHandler<CallbackContext> {
             final CallbackContext callbackContext,
             final Logger logger) {
 
+        final ResourceModel prevModel = request.getPreviousResourceState();
         final ResourceModel model = request.getDesiredResourceState();
+
+        logger.log("got previous resource model: %s".formatted(prevModel));
+        logger.log("got resource model: %s".formatted(model));
 
         AmazonSQS sqsClient = AwsClientFactory.configure(AmazonSQSClientBuilder.standard()).build();
         AmazonSNS snsClient = AwsClientFactory.configure(AmazonSNSClientBuilder.standard()).build();
