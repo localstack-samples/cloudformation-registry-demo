@@ -31,11 +31,13 @@ public class CreateHandler extends BaseHandler<CallbackContext> {
 
         try {
             // 1. create queue
+            logger.log("creating queue: %s".formatted(queueName));
             CreateQueueResult createQueueResult = proxy.<CreateQueueRequest, CreateQueueResult>injectCredentialsAndInvoke(
                     new CreateQueueRequest().withQueueName(queueName),
                     sqsClient::createQueue
             );
             String queueUrl = createQueueResult.getQueueUrl();
+            logger.log("created queue with url '%s'".formatted(queueUrl));
             model.setQueueUrl(queueUrl);
 
             // 2. get queue arn
@@ -44,6 +46,7 @@ public class CreateHandler extends BaseHandler<CallbackContext> {
                             .withAttributeNames("QueueArn"),
                     sqsClient::getQueueAttributes);
             String queueArn = attrs.getAttributes().get("QueueArn");
+            logger.log("got queue arn: '%s'".formatted(queueArn));
 
             // 3. set queue policy to allow sns
             String policy = buildPolicy(queueArn, model.getTopicArn());
@@ -60,8 +63,11 @@ public class CreateHandler extends BaseHandler<CallbackContext> {
                             .withProtocol("sqs")
                             .withEndpoint(queueArn),
                     snsClient::subscribe);
-            model.setSubscriptionArn(subscribeResult.getSubscriptionArn());
+            String subscriptionArn = subscribeResult.getSubscriptionArn();
+            logger.log("got subscription arn: '%s'".formatted(subscriptionArn));
+            model.setSubscriptionArn(subscriptionArn);
 
+            logger.log("operation complete");
             return ProgressEvent.<ResourceModel, CallbackContext>builder()
                     .resourceModel(model)
                     .status(OperationStatus.SUCCESS)
