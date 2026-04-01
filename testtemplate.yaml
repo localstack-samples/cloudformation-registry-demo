@@ -1,0 +1,11 @@
+Resources:
+  Topic:
+    Type: AWS::SNS::Topic
+
+  # Subscriber:
+  #   Type: LocalStack::Testing::Resource
+  #   Properties:
+  #     TopicArn: !Ref Topic
+Outputs:
+  TopicArn:
+    Value: !Ref Topic
