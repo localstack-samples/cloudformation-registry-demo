@@ -31,17 +31,13 @@ Properties:
 
 ARN of the topic
 
-_Required_: No
+_Required_: Yes
 
 _Type_: String
 
-_Update requires_: [No interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt)
+_Update requires_: [Replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement)
 
 ## Return Values
-
-### Ref
-
-When you pass the logical ID of this resource to the intrinsic `Ref` function, Ref returns the QueueUrl.
 
 ### Fn::GetAtt
 
@@ -55,5 +51,5 @@ URL of the queue
 
 #### SubscriptionArn
 
-Returns the <code>SubscriptionArn</code> value.
+Arn of the created subscription
 

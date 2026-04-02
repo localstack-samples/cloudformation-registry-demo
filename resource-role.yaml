@@ -30,6 +30,7 @@ Resources:
             Statement:
               - Effect: Allow
                 Action:
+                - "sns:ListSubscriptionsByTopic"
                 - "sns:Subscribe"
                 - "sns:Unsubscribe"
                 - "sqs:CreateQueue"

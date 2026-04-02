@@ -67,7 +67,7 @@ public class CreateHandler extends BaseHandler<CallbackContext> {
             logger.log("got subscription arn: '%s'".formatted(subscriptionArn));
             model.setSubscriptionArn(subscriptionArn);
 
-            logger.log("operation complete");
+            logger.log("operation complete, created model: %s".formatted(model));
             return ProgressEvent.<ResourceModel, CallbackContext>builder()
                     .resourceModel(model)
                     .status(OperationStatus.SUCCESS)

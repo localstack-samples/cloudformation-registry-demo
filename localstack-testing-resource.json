@@ -12,10 +12,14 @@
       "description": "URL of the queue"
     },
     "SubscriptionArn": {
-      "type": "string"
+      "type": "string",
+      "description": "Arn of the created subscription"
     }
   },
   "additionalProperties": false,
+  "required": [
+    "TopicArn"
+  ],
   "createOnlyProperties": [
     "/properties/TopicArn"
   ],
@@ -24,7 +28,8 @@
     "/properties/SubscriptionArn"
   ],
   "primaryIdentifier": [
-    "/properties/QueueUrl"
+    "/properties/QueueUrl",
+    "/properties/TopicArn"
   ],
   "handlers": {
     "create": {
@@ -37,6 +42,8 @@
     },
     "read": {
       "permissions": [
+        "sqs:GetQueueAttributes",
+        "sns:ListSubscriptionsByTopic"
       ]
     },
     "update": {
