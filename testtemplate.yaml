@@ -10,3 +10,9 @@ Resources:
 Outputs:
   TopicArn:
     Value: !Ref Topic
+
+  QueueUrl:
+    Value: !GetAtt Subscriber.QueueUrl
+
+  SubscriptionArn:
+    Value: !GetAtt Subscriber.SubscriptionArn
