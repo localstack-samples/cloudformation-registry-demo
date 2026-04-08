@@ -1,7 +1,7 @@
 {
   "typeName": "LocalStack::Testing::Resource",
   "description": "Lambda compatible queue for subscribing to messages",
-  "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-rpdk.git",
+  "sourceUrl": "https://github.com/localstack-samples/cloudformation-registry-demo",
   "properties": {
     "TopicArn": {
       "type": "string",
