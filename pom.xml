@@ -17,9 +17,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <cfn.generate.args/>
-        <!-- Platform native libs to exclude from shaded JAR.
-             Override with -Dshade.exclude.platforms= (empty) to include all platforms. -->
-        <shade.exclude.platforms>win/**,freebsd/**,darwin/**</shade.exclude.platforms>
     </properties>
 
     <dependencies>
@@ -38,31 +35,6 @@
             <groupId>software.amazon.cloudformation</groupId>
             <artifactId>aws-cloudformation-rpdk-java-plugin</artifactId>
             <version>[2.0.0,3.0.0)</version>
-            <exclusions>
-                <!-- Build-time tools, not needed at runtime -->
-                <exclusion>
-                    <groupId>com.diffplug.spotless</groupId>
-                    <artifactId>spotless-maven-plugin</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-war-plugin</artifactId>
-                </exclusion>
-                <!-- Groovy runtime pulled by spotless -->
-                <exclusion>
-                    <groupId>org.codehaus.groovy</groupId>
-                    <artifactId>groovy</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.codehaus.groovy</groupId>
-                    <artifactId>groovy-xml</artifactId>
-                </exclusion>
-                <!-- JGit pulled by spotless -->
-                <exclusion>
-                    <groupId>org.eclipse.jgit</groupId>
-                    <artifactId>org.eclipse.jgit</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <dependency>
@@ -120,15 +92,6 @@
         </dependency>
     </dependencies>
 
-    <profiles>
-        <profile>
-            <id>all-platforms</id>
-            <properties>
-                <shade.exclude.platforms></shade.exclude.platforms>
-            </properties>
-        </profile>
-    </profiles>
-
     <build>
         <plugins>
             <plugin>
@@ -145,41 +108,14 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.5.1</version>
+                <version>2.3</version>
                 <configuration>
                     <createDependencyReducedPom>false</createDependencyReducedPom>
-                    <minimizeJar>true</minimizeJar>
                     <filters>
-                        <!-- Keep all log4j classes (loaded via reflection/SPI) -->
-                        <filter>
-                            <artifact>org.apache.logging.log4j:*</artifact>
-                            <includes><include>**</include></includes>
-                        </filter>
-                        <filter>
-                            <artifact>org.slf4j:*</artifact>
-                            <includes><include>**</include></includes>
-                        </filter>
-                        <!-- Keep all Lambda runtime classes -->
-                        <filter>
-                            <artifact>com.amazonaws:aws-lambda-java-core</artifact>
-                            <includes><include>**</include></includes>
-                        </filter>
-                        <filter>
-                            <artifact>com.amazonaws:aws-lambda-java-log4j2</artifact>
-                            <includes><include>**</include></includes>
-                        </filter>
                         <filter>
                             <artifact>*:*</artifact>
                             <excludes>
                                 <exclude>**/Log4j2Plugins.dat</exclude>
-                                <exclude>META-INF/*.SF</exclude>
-                                <exclude>META-INF/*.DSA</exclude>
-                                <exclude>META-INF/*.RSA</exclude>
-                                <exclude>META-INF/MANIFEST.MF</exclude>
-                                <exclude>META-INF/LICENSE*</exclude>
-                                <exclude>META-INF/NOTICE*</exclude>
-                                <exclude>META-INF/DEPENDENCIES</exclude>
-                                <exclude>${shade.exclude.platforms}</exclude>
                             </excludes>
                         </filter>
                     </filters>
