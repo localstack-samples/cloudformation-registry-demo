@@ -22,8 +22,8 @@ public class ReadHandler extends BaseHandler<CallbackContext> {
 
         final ResourceModel model = request.getDesiredResourceState();
 
-        AmazonSQS sqsClient = AwsClientFactory.configure(AmazonSQSClientBuilder.standard()).build();
-        AmazonSNS snsClient = AwsClientFactory.configure(AmazonSNSClientBuilder.standard()).build();
+        AmazonSQS sqsClient = AmazonSQSClientBuilder.defaultClient();
+        AmazonSNS snsClient = AmazonSNSClientBuilder.defaultClient();
 
         try {
             // Get the queue ARN from the queue URL

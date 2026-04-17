@@ -33,8 +33,8 @@ public class DeleteHandler extends BaseHandler<CallbackContext> {
         logger.log("got resource model: %s".formatted(model));
         logger.log("thanks claude 2");
 
-        sqsClient = AwsClientFactory.configure(AmazonSQSClientBuilder.standard()).build();
-        snsClient = AwsClientFactory.configure(AmazonSNSClientBuilder.standard()).build();
+        sqsClient = AmazonSQSClientBuilder.defaultClient();
+        snsClient = AmazonSNSClientBuilder.defaultClient();
 
         try {
             var subscriptionArn = getSubscriptionArn(model);
