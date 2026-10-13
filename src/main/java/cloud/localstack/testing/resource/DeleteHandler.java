@@ -31,7 +31,6 @@ public class DeleteHandler extends BaseHandler<CallbackContext> {
         this.logger = logger;
 
         logger.log("got resource model: %s".formatted(model));
-        logger.log("thanks claude 2");
 
         sqsClient = AmazonSQSClientBuilder.defaultClient();
         snsClient = AmazonSNSClientBuilder.defaultClient();

@@ -60,6 +60,28 @@ Our recommendation is that AWS profiles are used to select between AWS destinati
 
 This project includes `testtemplate.yaml` which is an example usage of this extension.
 
+### Running on LocalStack
+
+With [lstk](https://docs.localstack.cloud/aws/developer-tools/running-localstack/lstk/), Java 17, Maven and Python 3.12 installed:
+
+```bash
+lstk setup aws          # creates the "localstack" AWS profile used by cfn submit
+make install            # installs the CloudFormation CLI into .venv
+make build              # mvn package, needs AWS_REGION set for the handler unit tests
+lstk start
+make submit             # cfn submit --set-default --profile localstack
+make deploy             # deploys testtemplate.yaml as the registry-demo stack
+```
+
+`make test` deploys `testtemplate.yaml` as a separate stack and checks that:
+
+- the extension is registered as the default version
+- the stack outputs a queue URL and subscription ARN, and the queue policy lets the topic send messages
+- the queue is subscribed to the topic, and a message published to the topic reaches the queue
+- deleting the stack removes the queue and the subscription
+
+CI runs these steps on every pull request.
+
 ---
 
 _Original README_
